@@ -43,7 +43,10 @@ string senhaUser;
 bool loopBreak = true;
 int escolhaMenu;
 int escolhaCadastro;
-bool sairCadastro = false;
+int escolhaListagem;
+Random rnd = new Random();
+int random = rnd.Next(100, 10000);
+
 
 
 Console.WriteLine(@$"
@@ -74,7 +77,6 @@ do
     {
         Console.Clear();
         Console.WriteLine($"Senha incorreta, tente novamente");
-        Console.WriteLine();
         Console.WriteLine($"Digite a senha para desbloquear o acesso: ");
         loopBreak = true;
     }
@@ -87,6 +89,7 @@ BarraCarregamento("Carregando Informações", 800, 6 );
 do
 {
     startOfLoop:
+    Console.Clear();
 Console.WriteLine(@$"
            MENU INICIAL
     
@@ -99,9 +102,10 @@ Console.WriteLine(@$"
 ");
     escolhaMenu = int.Parse(Console.ReadLine());
 
-    if (escolhaMenu == 1)
-    {
-        Console.Clear();
+switch (escolhaMenu)
+{
+    case 1:
+           Console.Clear();
                     Console.WriteLine(@$"
         MENU DE CADASTRO DE PASSAGENS
 
@@ -134,8 +138,6 @@ Console.WriteLine(@$"
             [2] - Retornar para o menu
             ");
             escolhaCadastro = int.Parse(Console.ReadLine());
-                // Console.WriteLine($"{nomePassageiro [i]} {origem [i]} {destino [i]} {dataVoo [i]}");
-
             if (escolhaCadastro == 2)
             {
                 
@@ -147,11 +149,14 @@ Console.WriteLine(@$"
             }
             
         }
-    }
+                // Console.WriteLine($"{nomePassageiro [i]} {origem [i]} {destino [i]} {dataVoo [i]}");
+        break;
 
-    else if(escolhaMenu == 2)
-    {
-        Console.WriteLine($"Aqui estão todas as suas passagens cadastradas:");
+        case 2:
+        Console.Clear();
+    Console.WriteLine($"Aqui estão todas as suas passagens cadastradas:");
+    Console.WriteLine();
+    
 
         for (var i = 0; i < origem.Length; i++){
 
@@ -164,18 +169,49 @@ Console.WriteLine(@$"
             }
             
             Console.WriteLine($"---------------------------------------------");
-            Console.WriteLine($"");
-            Console.WriteLine($"ID da passagem: #0{i + 1}2023");
+            Console.WriteLine();
+            Console.WriteLine($"ID da passagem: #0{rnd.Next()}{i + 1}2023");
             Console.WriteLine($"Nome do titular: {nomePassageiro[i]}");
             Console.WriteLine($"Origem da viagem: {origem[i]}");
             Console.WriteLine($"Destino da viagem: {destino[i]}");
             Console.WriteLine($"Data da viagem: {dataVoo[i]}");
-            Console.WriteLine($"");
+            Console.WriteLine();
+            Console.WriteLine($"---------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            
         }
         endOfList:
+        do
+        {
             Console.WriteLine($"O que deseja fazer?");
             Console.WriteLine($"[1] - retornar ao menu");
             Console.WriteLine($"[2] - sair");
-    }
-    
+            escolhaListagem = int.Parse(Console.ReadLine());
+
+            if (escolhaListagem == 1)
+            {
+                goto startOfLoop;
+            }
+            else if (escolhaListagem == 2)
+            {
+                BarraCarregamento("Encerrando Programa", 800 , 4);
+                break;
+            }
+            else{
+                Console.WriteLine($"Numero inválido, Por favor digite um número correto");
+            }
+            
+        } while (escolhaListagem != 2 || escolhaListagem != 1);
+        break;
+
+    case 0:
+        BarraCarregamento("Encerrando Programa", 800 , 4);
+        break;
+
+    default:
+        Console.WriteLine($"Número digtado inválido, por favor, digite um número válido.");
+        goto startOfLoop;
+}
 } while (loopBreak);
+    
